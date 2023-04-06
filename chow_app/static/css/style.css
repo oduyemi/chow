@@ -9230,7 +9230,9 @@ textarea.form-control {
       transform: translate(-50%, -50%); }
     .ftco-footer-social li a:hover {
       color: #fff; }
-
+.footer{
+  background-color: #484349;
+}
 .footer-small-nav > li {
   display: inline-block; }
   .footer-small-nav > li a {
@@ -9719,9 +9721,12 @@ textarea.form-control {
   box-shadow: none; }
 
   footer{
-    position: relative;
+    position: absolute;
     bottom: 0;
+    left:40%;
   }
+
+
 
 #ftco-loader.show {
   -webkit-transition: opacity .4s ease-out, visibility 0s linear 0s;

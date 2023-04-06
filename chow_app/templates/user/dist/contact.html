@@ -93,7 +93,7 @@
                 <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbarLight" aria-controls="offcanvasNavbarLight">
                 <span class="navbar-toggler-icon"></span>
                 </button>&emsp;
-                <a class="navbar-brand" href="index.html">chow</a></span>
+                <a class="navbar-brand" href="/">chow</a></span>
                 <span>
                     <button type="submit" class="btn btn-success">Log in</button>&emsp;
                     <button type="submit" class="btn btn-outline-success">Sign up</button>
@@ -106,13 +106,13 @@
                 <div class="offcanvas-body">
                   <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
                     <li class="nav-item">
-                      <a class="nav-link active" aria-current="page" href="index.html">Home</a>
+                      <a class="nav-link active" aria-current="page" href="/">Home</a>
                     </li>
                     <li class="nav-item">
-                      <a class="nav-link" href="about.html">About</a>
+                      <a class="nav-link" href="{{ url_for("about") }}">About</a>
                     </li>
                     <li class="nav-item">
-                      <a class="nav-link" href="contact.html">Contact us</a>
+                      <a class="nav-link" href="{{ url_for("contact")}}">Contact us</a>
                     </li>
                     <li class="nav-item dropdown">
                       <a class="nav-link dropdown-toggle" href="services.html" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -152,7 +152,7 @@
                 </div>
             </div>
             <div class="col-md-6 my-5 ms-5">
-                <img src="images/cont.jpg" alt="" class="img-fluid"/>
+                <img src="static/images/cont.jpg" alt="" class="img-fluid"/>
             </div>
         </div>
         <section>
@@ -176,25 +176,84 @@
           <div class="row my-5 align-items-center mx-auto">
             <h2 class="intro text-center">SEND US A MESSAGE</h2>
             <form action="" method="post">
+              {% with messages = get_flashed_messages(with_categories=true) %}
+				{% if messages %}
+				  {% for category, message in messages %}
+					<div class="alert alert-{{ category }}">
+					  {{ message }}
+				  {% endfor %}
+				{% endif %}
+				
+				{% endwith %}
+
+				{{ form.csrf_token }}
+				{% with messages = get_flashed_messages(with_categories=true) %}
+				{% if messages %}
+				  {% for category, message in messages %}
+					<div class="alert alert-{{ category }}">
+					  {{ message}}
+				  {% endfor %}
+				{% endif %}
+				
+				{% endwith %}
               <div class="col-md-6 form-group mx-auto">                
                   <div class="form-group">
-                    <input type="text" name="full_name" placeholder="Full name" class="form-control my-3">
+                    {% if form.fullname.errors %}
+                              {{ form.fullname (class="is_invalid") }}
+                                <div class="invalid-feedback">
+                                  {% for error in form.fullname.errors %}
+                                  <span>{{ error }}</span>
+                                  {% endfor %}
+                                </div>
+                            </div>
+                            {% else %}
+                              {{ form.fullname (class="form-control my-3") }}
+                            {% endif %}
                   </div>
 
                   <div class="form-group">
-                    <input type="number" name="phone_number" placeholder="Phone number" class="form-control my-3">
+                    {% if form.phone.errors %}
+                              {{ form.phone (class="is_invalid") }}
+                                <div class="invalid-feedback">
+                                  {% for error in form.phone.errors %}
+                                  <span>{{ error }}</span>
+                                  {% endfor %}
+                                </div>
+                            </div>
+                            {% else %}
+                              {{ form.phone (class="form-control my-3") }}
+                            {% endif %}
                   </div>
 
                   <div class="form-group">
-                    <input type="email" name="mail" placeholder="Email Address" class="form-control my-3">
+                    {% if form.mail.errors %}
+                              {{ form.mail (class="is_invalid") }}
+                                <div class="invalid-feedback">
+                                  {% for error in form.mail.errors %}
+                                  <span>{{ error }}</span>
+                                  {% endfor %}
+                                </div>
+                            </div>
+                            {% else %}
+                              {{ form.mail (class="form-control my-3") }}
+                            {% endif %}
                   </div>
 
                   <div class="form-group">
-                    <textarea type="message_details" name="message_details" placeholder="Your text here..." rows="6px"
-                    cols="60px" class="form-control my-3"></textarea>
+                    {% if form.message.errors %}
+                              {{ form.message (class="is_invalid") }}
+                                <div class="invalid-feedback">
+                                  {% for error in form.message.errors %}
+                                  <span>{{ error }}</span>
+                                  {% endfor %}
+                                </div>
+                            </div>
+                            {% else %}
+                              {{ form.message (class="form-control my-3") }}
+                            {% endif %}
                 
                   <div class="text-center">
-                    <button class="btn btn-success">SUBMIT</button>
+                    {{ form.submit (class="btn btn-success") }}
                   </div>
               </div>
             </form>
@@ -205,16 +264,13 @@
 
 
  <!--  FOOTER -->
- <footer>
-    <div class="row mt-5">
+    <div class="row mt-5 footer">
       <div class="col-md-12 text-center">
 
         <p class="text-black">
               Copyright &copy; Yẹmi <i class="icon-heart color-danger" aria-hidden="true"> </i><script>document.write(new Date().getFullYear());</script>  | All rights reserved.
         </p>
       </div>
-    </div>
-  </footer>
 
 
     <!-- loader -->
