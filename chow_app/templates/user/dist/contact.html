@@ -93,7 +93,7 @@
                 <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbarLight" aria-controls="offcanvasNavbarLight">
                 <span class="navbar-toggler-icon"></span>
                 </button>&emsp;
-                <a class="navbar-brand" href="/">chow</a></span>
+                <a class="navbar-brand text-success" href="/">chow</a></span>
                 <span>
                     <button type="submit" class="btn btn-success">Log in</button>&emsp;
                     <button type="submit" class="btn btn-outline-success">Sign up</button>
@@ -128,11 +128,11 @@
                       </ul>
                     </li>
                     <li class="nav-item">
-                      <a class="nav-link" href="dashboard.html">My Orders</a>
+                      <a class="nav-link" href="{{ url_for("dashboard") }}">My Account</a>
                     </li>
                   </ul>
                   <form class="d-flex mt-3" role="search">
-                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                    <input class="form-control me-2" type="search" placeholder="Search in menu" aria-label="Search">
                     <button class="btn btn-outline-success" type="submit">Search</button>
                   </form>
                 </div>
@@ -176,16 +176,6 @@
           <div class="row my-5 align-items-center mx-auto">
             <h2 class="intro text-center">SEND US A MESSAGE</h2>
             <form action="" method="post">
-              {% with messages = get_flashed_messages(with_categories=true) %}
-				{% if messages %}
-				  {% for category, message in messages %}
-					<div class="alert alert-{{ category }}">
-					  {{ message }}
-				  {% endfor %}
-				{% endif %}
-				
-				{% endwith %}
-
 				{{ form.csrf_token }}
 				{% with messages = get_flashed_messages(with_categories=true) %}
 				{% if messages %}
@@ -274,8 +264,8 @@
 
 
     <!-- loader -->
-    <div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#198754"/></svg></div>
-
+    <!--<div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#198754"/></svg></div>
+      <-->
 
 </div>
 <script src="{{url_for("static", filename="assets/dist/js/bootstrap.bundle.min.js")}}"></script>

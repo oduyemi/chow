@@ -4,21 +4,37 @@ from sqlalchemy.sql import text
 from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.exceptions import HTTPException
 from chow_app import app, db
-from chow_app.models import User, Contact
-from chow_app.forms import ContactForm,LoginForm,SignUpForm
+from chow_app.models import User, Contact, Order
+from forms import ContactForm, LoginForm, SignUpForm
 
 
-def generate_name():
-    global filename
-    filename = random.sample(string.ascii_lowercase,10)
-    return ''.join(filename) 
+# def generate_name():
+#     global filename
+#     filename = random.sample(string.ascii_lowercase,10)
+#     return ''.join(filename) 
 
 #       --  ROUTES  --
-
-@app.route('/', strict_slashes = False)
+@app.route('/', methods = ["POST", "GET"], strict_slashes = False)
 def home():
-    return render_template('user/index.html')
-
+    id =session.get("user")        
+    if request.method == "POST":
+        if session.get("user") != None:
+            location = request.form.get("location")
+            preference = request.form.get("preference")
+            
+            if location != "" and preference != "":
+                new_order = Order(order_location=location, order_preference=preference, order_user=id)
+                db.session.add(new_order)
+                db.session.commit()
+                return redirect(url_for("shop"))
+            else:
+                flash("Please select your location")
+                return redirect("/")
+        else:
+            return redirect(url_for("login"))
+    else:
+        return render_template('user/index.html')
+   
 
 @app.route('/contact', methods = ["POST", "GET"], strict_slashes = False)
 def contact():
@@ -29,10 +45,10 @@ def contact():
     message=request.form.get("message")
     error = None
     if request.method == "GET":
-        return render_template('user/contact.html', form=form, error=error, fname=fname, phone=phone, mail=mail, message=message)
+        return render_template('user/contact.html', form=form, error=error, fname=fullname, phone=phone, mail=mail, message=message)
     else:
         try:
-            if fname !='' and phone != "" and mail !='' and message != "":
+            if fullname !='' and phone != "" and mail !='' and message != "":
                 new_contact=Contact(contact_name = fullname, contact_phone = phone, contact_email = mail, contact_content = message, contact_status_id=1)
                 db.session.add(new_contact)
                 db.session.commit()
@@ -41,16 +57,16 @@ def contact():
         except:
             ""
 
+
 @app.route('/about', strict_slashes = False)
 def about():
     return render_template('user/about.html')
 
+
 @app.route('/signup', methods = ["POST", "GET"], strict_slashes = False)
 def signup():
     form= SignUpForm()
-    if request.method == "GET":
-        return render_template('user/signup.html', form = form, title="Sign Up")
-    else:
+    if request.method=="POST":
         fullname = request.form.get("fullname")
         phone = request.form.get("phone")
         email = request.form.get("email")
@@ -66,8 +82,8 @@ def signup():
             return redirect(url_for('login'))
         else:
             flash('You must fill the form correctly to signup', "danger")
-    
-
+    else:
+        return render_template('user/signup.html', form = form, title="Sign Up")
 
 @app.route('/login', methods = ['POST', 'GET'], strict_slashes = False)
 def login():
@@ -84,22 +100,31 @@ def login():
             if chk:
                 id = deets.user_id
                 session['user'] = id
-                return ""
+                return redirect("shop")
             else:
                 flash('Invalid password')
         return redirect(url_for('login'))
 
 
-# @app.route('/login', methods = ['POST', 'GET'], strict_slashes = False)
-# def passwordreset():
-#     if request.method=='GET':
-#         return render_template('user/login.html')
-#     else:
-#         username=request.form.get('username')
+@app.route("/logout", strict_slashes = False)
+def logout():
+    if session.get("user") != None:
+        session.pop("user",None)
+    return redirect('/')
 
 
-# @app.route("/logout", strict_slashes = False)
-# def userlogout():
-#     if session.get("user") != None:
-#         session.pop("user",None)
-#     return redirect('/login')
+
+@app.route('/dashboard', methods = ['POST', 'GET'], strict_slashes = False)
+def dashboard():
+    id = session.get("user")
+    if id != None:
+        return render_template("user/dashboard.html")
+    else:
+        return redirect(url_for("login"))
+
+
+@app.route("/shop", strict_slashes = False)
+def shop():
+    id = session.get("user")
+    if request.method == "GET":
+        return render_template('user/shop.html', title="Shop Now")

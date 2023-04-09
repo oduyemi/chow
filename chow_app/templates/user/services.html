@@ -134,7 +134,7 @@
                 <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbarLight" aria-controls="offcanvasNavbarLight">
                 <span class="navbar-toggler-icon"></span>
                 </button>&emsp;
-                <a class="navbar-brand" href="index.html">chow</a></span>
+                <a class="navbar-brand text-success" href="/">chow</a></span>
                 <span>
                     <button type="submit" class="btn btn-success">Log in</button>&emsp;
                     <button type="submit" class="btn btn-outline-success">Sign up</button>
@@ -169,11 +169,11 @@
                       </ul>
                     </li>
                     <li class="nav-item">
-                      <a class="nav-link" href="dashboard.html">My Orders</a>
+                      <a class="nav-link" href="{{ url_for("dashboard") }}">My Account</a>
                     </li>
                   </ul>
                   <form class="d-flex mt-3" role="search">
-                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                    <input class="form-control me-2" type="search" placeholder="Search in menu" aria-label="Search">
                     <button class="btn btn-outline-success" type="submit">Search</button>
                   </form>
                 </div>

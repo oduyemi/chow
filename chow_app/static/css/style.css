@@ -44,7 +44,7 @@
 html {
   font-family: sans-serif;
   line-height: 1.15;
-  -webkit-text-size-adjust: 100%;
+  /* -webkit-text-size-adjust: 100%; */
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0); }
 
 article, aside, figcaption, figure, footer, header, hgroup, main, nav, section {
@@ -9231,7 +9231,10 @@ textarea.form-control {
     .ftco-footer-social li a:hover {
       color: #fff; }
 .footer{
-  background-color: #484349;
+  background-color: #C6C5B9;
+  position:fixed;
+  bottom: 0%;
+  width: 100%;
 }
 .footer-small-nav > li {
   display: inline-block; }
@@ -9239,6 +9242,30 @@ textarea.form-control {
     margin: 0 10px 10px 0; }
     .footer-small-nav > li a:hover, .footer-small-nav > li a:focus {
       color: #ffbd39; }
+
+.shop_hero{
+  height: 480px;
+  background-image: url(../images/shop_hero.jpg);
+  background-size: cover;
+  background-position: 100%;
+  width:100%;
+}
+
+.food_search{
+  border-radius: 7%;
+  background-color: #C6C5B9;
+  border:none;
+
+}
+
+.food_details{
+  font-size: smaller;
+  color: #C6C5B9;
+}
+
+.dishes h1{
+  font-size:large
+}
 
 .media .ftco-icon {
   width: 100px; }
