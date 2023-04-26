@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Admin Login - The Chow App</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900" rel="stylesheet">
+    <link href="{{url_for("static", filename="css/bootstrap.min.css")}}" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for("static", filename="css/animate.min.css") }}">
+    <link rel="stylesheet" href="{{url_for("static", filename="fontawesome/css/all.css") }}"> 
+    <link rel="stylesheet" href="{{url_for("static", filename="css/owl.carousel.min.css")}}">
+    <link rel="stylesheet" href="{{url_for("static", filename="css/owl.theme.default.min.css")}}">
+    <link rel="stylesheet" href="{{url_for("static", filename="css/magnific-popup.css")}}">
+    <link rel="stylesheet" href="{{url_for("static", filename="css/aos.css")}}">
+    <link rel="stylesheet" href="{{url_for("static", filename="css/style.css")}}">
+    <link rel="stylesheet" href="{{url_for("static", filename="css/navbars-offcanvas.css")}}">
+    <link rel="stylesheet" href="{{url_for("static", filename="assets/dist/css/bootstrap.min.css")}}">
+
+    <style>
+      body{
+        background-color:#BDE0D1;
+      }
+      a{
+        text-decoration:none;
+      }
+        form{
+            position:relative;
+            top:20%;
+        }
+        .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+      }
+
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+      }
+
+      .b-example-divider {
+        height: 3rem;
+        background-color: rgba(0, 0, 0, .1);
+        border: solid rgba(0, 0, 0, .15);
+        border-width: 1px 0;
+        box-shadow: inset 0 .5em 1.5em rgba(0, 0, 0, .1), inset 0 .125em .5em rgba(0, 0, 0, .15);
+      }
+
+      .b-example-vr {
+        flex-shrink: 0;
+        width: 1.5rem;
+        height: 100vh;
+      }
+
+      .bi {
+        vertical-align: -.125em;
+        fill: currentColor;
+      }
+
+      .nav-scroller {
+        position: relative;
+        z-index: 2;
+        height: 2.75rem;
+        overflow-y: hidden;
+      }
+
+      .nav-scroller .nav {
+        display: flex;
+        flex-wrap: nowrap;
+        padding-bottom: 1rem;
+        margin-top: -1px;
+        overflow-x: auto;
+        text-align: center;
+        white-space: nowrap;
+        -webkit-overflow-scrolling: touch;
+      }
+
+
+    @media (max-width: 768px) {
+    .container {
+      max-width: 720px; }
+    
+    
+      
+    }
+   
+    </style>
+</head>
+<body>
+      <!--  HEADER -->
+        <!--  BODY -->
+    <div class="container-fluid">
+      <main>
+      <div class="row mb-5 align-items-center mx-auto">
+        <div class="col-md-8  mt-5 mx-auto">
+        <form action="" method="post">
+            <h2 class="intro text-center mb-5">Sign Up Form</h2>
+          {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      {% for category, message in messages %}
+      <div class="alert alert-{{ category }}">
+        {{ message }}
+      {% endfor %}
+    {% endif %}
+    
+    {% endwith %}
+
+    {{ form.csrf_token }}
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      {% for category, message in messages %}
+      <div class="alert alert-{{ category }}">
+        {{ message}}
+      {% endfor %}
+    {% endif %}
+    
+    {% endwith %}
+          <div class="col-md-6 form-group mx-auto">                
+              <div class="form-group">
+                {% if form.fname.errors %}
+                          {{ form.fname (class="is_invalid") }}
+                            <div class="invalid-feedback">
+                              {% for error in form.fname.errors %}
+                              <span>{{ error }}</span>
+                              {% endfor %}
+                            </div>
+                        </div>
+                        {% else %}
+                          {{ form.fname (class="form-control my-3") }}
+                        {% endif %}
+              </div>
+
+              <div class="form-group">
+                {% if form.lname.errors %}
+                          {{ form.lname (class="is_invalid") }}
+                            <div class="invalid-feedback">
+                              {% for error in form.lname.errors %}
+                              <span>{{ error }}</span>
+                              {% endfor %}
+                            </div>
+                        </div>
+                        {% else %}
+                          {{ form.lname (class="form-control my-3") }}
+                        {% endif %}
+                      </div>
+
+              <div class="form-group">
+                {% if form.phone.errors %}
+                          {{ form.phone (class="is_invalid") }}
+                            <div class="invalid-feedback">
+                              {% for error in form.phone.errors %}
+                              <span>{{ error }}</span>
+                              {% endfor %}
+                            </div>
+                        </div>
+                        {% else %}
+                          {{ form.phone (class="form-control my-3") }}
+                        {% endif %}
+              </div>
+               
+              <div class="form-group">
+                {% if form.email.errors %}
+                          {{ form.email (class="is_invalid") }}
+                            <div class="invalid-feedback">
+                              {% for error in form.email.errors %}
+                              <span>{{ error }}</span>
+                              {% endfor %}
+                            </div>
+                        </div>
+                        {% else %}
+                          {{ form.email (class="form-control my-3") }}
+                        {% endif %}
+              </div>
+
+              <div class="form-group">
+                {% if form.password.errors %}
+                          {{ form.password (class="is_invalid") }}
+                            <div class="invalid-feedback">
+                              {% for error in form.password.errors %}
+                              <span>{{ error }}</span>
+                              {% endfor %}
+                            </div>
+                        </div>
+                        {% else %}
+                          {{ form.password (class="form-control my-3") }}
+                        {% endif %}
+              </div>
+
+              <div class="form-group">
+                {% if form.confirm_password.errors %}
+                          {{ form.confirm_password (class="is_invalid") }}
+                            <div class="invalid-feedback">
+                              {% for error in form.confirm_password.errors %}
+                              <span>{{ error }}</span>
+                              {% endfor %}
+                            </div>
+                        </div>
+                        {% else %}
+                          {{ form.confirm_password (class="form-control my-3") }}
+                        {% endif %}
+              </div>
+
+
+
+                    
+              <div class="text-center">
+                {{ form.submit (class="btn btn-success") }}
+              </div>
+                <div class="ms-5 my-3">
+                  <span class="text-success ms-5 ps-3" style="font-size:smaller">You have an account? <a class="text-danger" href="{{ url_for("adminlogin")}}">Click Here</a>
+                </div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+
+
+
+<!--  FOOTER -->
+<div class="row mt-5 footer">
+  <div class="col-md-12 text-center">
+
+    <p class="text-black">
+      Copyright &copy; <a href="https://www.yemi.dev" target="_blank">Yẹmi<i class="icon-heart color-danger" aria-hidden="true"> </i></a><script>document.write(new Date().getFullYear());</script>  | All rights reserved.
+    </p>
+  </div>
+</div>
+
+
+
+<!-- loader
+<div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#198754"/></svg></div>
+<-->
+</main>
+</div>
+<script src="{{url_for("static", filename="assets/dist/js/bootstrap.bundle.min.js")}}"></script>
+<script type="text/javascript" language="javascript" src="{{url_for("static", filename="js/bootstrap.min.js")}}"></script>
+<script type="text/javascript" language="javascript" src="{{url_for("static", filename="js/jquery.min.js")}}"></script>
+<script type="text/javascript" language="javascript" src="{{url_for('static', filename='js/jquery-migrate-3.0.1.min.js')}}"></script>
+<script type="text/javascript" language="javascript" src="{{url_for('static', filename='js/popper.min.js')}}"></script>
+<script type="text/javascript" language="javascript" src="{{url_for("static", filename="js/jquery.stellar.min.js")}}"></script>
+<script type="text/javascript" language="javascript" src="{{url_for("static", filename="js/aos.js")}}"></script>
+<script type="text/javascript" language="javascript" src="{{url_for("static", filename="js/main.js")}}"></script>
+<script type="text/javascript" language="javascript" src="{{url_for("static", filename="js/jquery.easing.1.3.js")}}"></script>
+<script type="text/javascript" language="javascript" src="{{url_for("static", filename="js/jquery.waypoints.min.js")}}"></script>
+<script type="text/javascript" language="javascript" src="{{url_for("static", filename="js/owl.carousel.min.js")}}"></script>
+<script type="text/javascript" language="javascript" src="{{url_for("static", filename="js/jquery.magnific-popup.min.js")}}"></script>
+<script type="text/javascript" language="javascript" src="{{url_for("static", filename="js/scrollax.min.js")}}"></script>
+<script type="text/javascript" language="javascript" src="{{url_for("static", filename="js/script.js")}}"></script>
+</body>
+</html>

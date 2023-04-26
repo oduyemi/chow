@@ -137,6 +137,7 @@
                 </button>&emsp;
                 <a class="navbar-brand text-success" href="/">chow</a></span>
                 <span>
+                  <i class="fa-solid fa-cart-shopping text-success"></i><span></span id="cart">&emsp;
                     <a href="{{ url_for("login") }}" class="btn btn-success">Log in</a>&emsp;
                     <a href="{{ url_for("login") }}" class="btn btn-outline-success">Sign up</a>&emsp;
                 </span>
@@ -229,43 +230,24 @@
                     <h2 class="intro">Menus</h2>
                 </div>
             </div>
-            <div class="row align-items-center justify-content-center">
-                <div class="col-md-9 mt-3">
-                  <table class="table table-striped table-responsive table-hover mx-auto">
-                    <thead>
-                        <tr class="ms-3">
-                            <th>Main</th>
-                            <th>Protein</th>
-                            <th>Swallow</th>
-                            <th>Soup</th>
-                        </tr>
-                    </thead>
-                    <tbody>
+            <div class="row mx-auto align-items-center justify-content-center">
+                <div class="col-md-5 me-5 pe-3 mt-3">
+                  <table class="table table-responsive table-hover mx-auto">
                         <tr>
-                            <td><span> Yam Porridge </span>&emsp;<img src="static/images/main/porridge.jpg" alt="" height="120" width="120"></td>&emsp;
-                            <td><span> Asun </span>&emsp;<img src="static/images/protein/asun.jpg" alt="" height="120" width="120"></td>&emsp;
-                            <td><span> Amala </span>&emsp;<img src="static/images/swallow/amala.jpg" alt="" height="120" width="120"></td>&emsp;
-                            <td><span>Afang </span>&emsp;<img src="static/images/soup/afang.jpg" alt="" height="120" width="120"></td>
+                          {% for m in main_ %}
+                            <td><span>{{m.menu_item}} </span>&emsp;<img src="static/{{m.menu_img}}" alt="" height="120" width="140"></td>&emsp;
+                          {% endfor %}
                         </tr>
                         <tr>
-                          <td><span> Yam Porridge </span>&emsp;<img src="static/images/main/porridge.jpg" alt="" height="120" width="120"></td>&emsp;
-                          <td><span> Asun </span>&emsp;<img src="static/images/protein/asun.jpg" alt="" height="120" width="120"></td>&emsp;
-                          <td><span> Amala </span>&emsp;<img src="static/images/swallow/amala.jpg" alt="" height="120" width="120"></td>&emsp;
-                          <td><span>Afang </span>&emsp;<img src="static/images/soup/afang.jpg" alt="" height="120" width="120"></td>
-                      </tr>
-                      <tr>
-                        <td><span> Yam Porridge </span>&emsp;<img src="static/images/main/porridge.jpg" alt="" height="120" width="120"></td>&emsp;
-                        <td><span> Asun </span>&emsp;<img src="static/images/protein/asun.jpg" alt="" height="120" width="120"></td>&emsp;
-                        <td><span> Amala </span>&emsp;<img src="static/images/swallow/amala.jpg" alt="" height="120" width="120"></td>&emsp;
-                        <td><span>Afang </span>&emsp;<img src="static/images/soup/afang.jpg" alt="" height="120" width="120"></td>
-                    </tr>
-                    <tr>
-                      <td><span> Yam Porridge </span>&emsp;<img src="static/images/main/porridge.jpg" alt="" height="120" width="120"></td>&emsp;
-                      <td><span> Asun </span>&emsp;<img src="static/images/protein/asun.jpg" alt="" height="120" width="120"></td>&emsp;
-                      <td><span> Amala </span>&emsp;<img src="static/images/swallow/amala.jpg" alt="" height="120" width="120"></td>&emsp;
-                      <td><span>Afang </span>&emsp;<img src="static/images/soup/afang.jpg" alt="" height="120" width="120"></td>
-                  </tr>
-                    </tbody>
+                          {% for s in swallow_ %}
+                            <td><span>{{s.menu_item}} </span>&emsp;<img src="static/{{s.menu_img}}" alt="" height="120" width="140"></td>&emsp;
+                          {% endfor %}
+                        </tr>
+                        <tr>
+                          {% for so in soup %}
+                            <td><span> {{so.menu_item}} </span>&emsp;<img src="static/{{so.menu_img}}" alt="" height="120" width="140"></td>&emsp;
+                          {% endfor %}
+                        </tr>
                   </table>
                   <div class="text-center my-5">
                     <a href="{{ url_for("shop")}}" class="btn btn-success">Shop Now</a>
@@ -327,7 +309,7 @@
         <div class="col-md-12 text-center">
 
           <p class="text-black">
-        Copyright &copy; Yẹmi <i class="icon-heart color-danger" aria-hidden="true"> </i><script>document.write(new Date().getFullYear());</script>  | All rights reserved.
+            Copyright &copy; <a href="https://www.yemi.dev" target="_blank">Yẹmi<i class="icon-heart color-danger" aria-hidden="true"> </i></a><script>document.write(new Date().getFullYear());</script>  | All rights reserved.
           </p>
         </div>
       </div>

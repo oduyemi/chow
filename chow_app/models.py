@@ -7,10 +7,16 @@ from chow_app import db
 class Menu(db.Model):
     menu_id = db.Column(db.Integer, autoincrement=True,primary_key=True)
     menu_item = db.Column(db.String(200),nullable=False)
-    menu_qty = db.Column(db.Text(), nullable=True)
+    menu_code = db.Column(db.String(200),nullable=False)
+    menu_desc = db.Column(db.Text(),nullable=False)
+    menu_cat_id = db.Column(db.Integer, db.ForeignKey('menu_cat.menu_cat_id'))
     menu_price = db.Column(db.Float(),nullable=False)
     menu_img = db.Column(db.String(200), nullable=False)
     menu_details = db.Column(db.Integer, db.ForeignKey('details.details_id'))
+
+class Menu_cat(db.Model):
+    menu_cat_id = db.Column(db.Integer, autoincrement=True,primary_key=True)
+    menu_cat = db.Column(db.String(200),nullable=False)
 
 class Cart(db.Model):
     cart_id = db.Column(db.Integer, autoincrement=True,primary_key=True)
@@ -24,6 +30,8 @@ class Cart(db.Model):
 class Order(db.Model):
     order_id = db.Column(db.Integer, autoincrement=True,primary_key=True)
     order_amt = db.Column(db.Float(),nullable=True)
+    order_user = db.Column(db.Integer, db.ForeignKey('user.user_id'))
+    order_ref = db.Column(db.String(200),nullable=True)
     order_date = db.Column(db.DateTime(), default=datetime.utcnow)
     order_status = db.Column(db.Integer, db.ForeignKey('order_status.order_status_id'))
 

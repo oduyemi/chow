@@ -70,6 +70,14 @@ body {
   /* font-size: x-large; */
 }
 
+
+#add_cart{
+  position: fixed;
+  bottom:9%;
+  z-index: 9;
+
+}
+
 .abt_box{
   position: relative;
   left:17%;
@@ -9249,6 +9257,11 @@ textarea.form-control {
   background-size: cover;
   background-position: 100%;
   width:100%;
+}
+
+.footer a{
+  text-decoration: none;
+  color:#000;
 }
 
 .food_search{

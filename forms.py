@@ -98,3 +98,61 @@ class SignUpForm(FlaskForm):
         user = User.query.filter_by(user_email = email.data).first()
         if user:
             raise ValidationError("That email already has an account. Please choose a different one.")
+
+
+
+class AdminSignUpForm(FlaskForm):
+    fname = StringField("fname",
+    validators=[
+        DataRequired(),
+        length(min=1, max=20, message = "Please provide a valid name"),
+        Regexp(
+            "^[A-Za-z]x*", 0, "Your First name must contain only letters"
+            ),
+        ],
+    render_kw={"placeholder": "First Name"})
+
+    lname = StringField("fname",
+    validators=[
+        DataRequired(),
+        length(min=1, max=20, message = "Please provide a valid name"),
+        Regexp(
+            "^[A-Za-z]x*", 0, "Your First name must contain only letters"
+            ),
+        ],
+    render_kw={"placeholder": "Last Name"})
+
+    phone = StringField("phone",
+        validators=[
+            DataRequired(),
+            length(min=1, max=20, message = "Please provide a valid phone number"),
+            Regexp(
+                "^[A-Za-z] [A-Za-a0-9.]*", 0, "Please provide a valid phone number")],
+        render_kw={"placeholder": "Phone Number"})
+
+    email = StringField("email",
+        validators=
+            [DataRequired(),
+            length(min=6, max=30),
+            Email()],
+            render_kw={"placeholder": "Email Address"})
+
+    password = PasswordField("password",
+        validators=
+            [DataRequired(),
+            length(min=6, max=20)],
+            render_kw={"placeholder": "Create Password"})
+
+    confirm_password = PasswordField("confirm_password",
+        validators=
+            [DataRequired(),
+            length(min=6, max=20)],
+            render_kw={"placeholder": "Confirm Password"})
+    EqualTo("password", message = "The passwords must match! ")
+    submit = SubmitField("Sign Up")
+
+    def validate_email(self, email):
+        user = User.query.filter_by(user_email = email.data).first()
+        if user:
+            raise ValidationError("That email already has an account. Please choose a different one.")
+

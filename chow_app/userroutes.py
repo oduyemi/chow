@@ -4,19 +4,37 @@ from sqlalchemy.sql import text
 from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.exceptions import HTTPException
 from chow_app import app, db
-from chow_app.models import User, Contact, Order
+from chow_app.models import User, Contact, Order, Menu
 from forms import ContactForm, LoginForm, SignUpForm
+
 
 
 # def generate_name():
 #     global filename
 #     filename = random.sample(string.ascii_lowercase,10)
-#     return ''.join(filename) 
+#     return ''.join(filename)
+# 
+def array_merge( first_array , second_array ):
+    if isinstance( first_array , list ) and isinstance( second_array , list ):
+        return first_array + second_array
+
+    elif isinstance( first_array , dict ) and isinstance( second_array , dict ):
+	    return dict( list( first_array.items() ) + list( second_array.items() ) )
+    
+    elif isinstance( first_array , set ) and isinstance( second_array , set ):
+        return first_array.union( second_array )
+	
+    else:
+        return False	 
 
 #       --  ROUTES  --
 @app.route('/', methods = ["POST", "GET"], strict_slashes = False)
 def home():
-    id =session.get("user")        
+    id =session.get("user")
+    main_ = db.session.query(Menu).filter(Menu.menu_cat_id==1).all()
+    protein_ = db.session.query(Menu).filter(Menu.menu_cat_id==2).all()
+    swallow_ = db.session.query(Menu).filter(Menu.menu_cat_id==3).all()
+    soup_ = db.session.query(Menu).filter(Menu.menu_cat_id==4).all()         
     if request.method == "POST":
         if session.get("user") != None:
             location = request.form.get("location")
@@ -33,7 +51,7 @@ def home():
         else:
             return redirect(url_for("login"))
     else:
-        return render_template('user/index.html')
+        return render_template('user/index.html', main_=main_, swallow_=swallow_, protein_=protein_, soup_=soup_)
    
 
 @app.route('/contact', methods = ["POST", "GET"], strict_slashes = False)
@@ -126,5 +144,86 @@ def dashboard():
 @app.route("/shop", strict_slashes = False)
 def shop():
     id = session.get("user")
+    main_ = db.session.query(Menu).filter(Menu.menu_cat_id==1).all()
+    protein_ = db.session.query(Menu).filter(Menu.menu_cat_id==2).all()
+    swallow_ = db.session.query(Menu).filter(Menu.menu_cat_id==3).all()
+    soup_ = db.session.query(Menu).filter(Menu.menu_cat_id==4).all() 
     if request.method == "GET":
-        return render_template('user/shop.html', title="Shop Now")
+        return render_template('user/shop.html', title="Shop Now", main_=main_, protein_=protein_, swallow_=swallow_, soup_=soup_)
+
+
+@app.route('/add/<bid>', methods=['GET', 'POST'], strict_slashes = False)
+def add_to_cart(bid):
+    id = session.get("user")
+    mdeets = db.session.query(Menu).filter(Menu.menu_id==bid).one()
+    price = float(mdeets.menu_price) + 200.00
+    extra = db.session.query(Menu).filter(Menu.menu_cat_id==5).all()
+    protein_ = db.session.query(Menu).filter(Menu.menu_cat_id==2).all()
+
+    if id != None:
+        if request.method == "GET":
+            return render_template('user/add.html', title="Add to Cart", mdeets=mdeets, price=price, extra=extra, protein_=protein_)
+# 	try:
+# 		qty = int(request.form['quantity'])
+# 		_code = request.form['code']
+# 		# validate the received values
+# 		if qty and _code and request.method == 'POST':
+# 			query = ("SELECT * FROM menu WHERE code=%s", _code)
+# 			row = db.session.execute.fetchone(query)
+			
+# 			itemArray = { row['code'] : {'name' : row['name'], 'code' : row['code'], 'quantity' : qty, 'price' : row['price'], 'image' : row['image'], 'total_price': qty * row['price']}}
+			
+# 			all_total_price = 0
+# 			all_total_qty = 0
+			
+# 			session.modified = True
+# 			if 'cart_item' in session:
+# 				if row['code'] in session['cart_item']:
+# 					for key, value in session['cart_item'].items():
+# 						if row['code'] == key:
+# 							#session.modified = True
+# 							#if session['cart_item'][key]['quantity'] is not None:
+# 							#	session['cart_item'][key]['quantity'] = 0
+# 							old_qty = session['cart_item'][key]['quantity']
+# 							total_qty = old_qty + qty
+# 							session['cart_item'][key]['quantity'] = total_qty
+# 							session['cart_item'][key]['total_price'] = total_qty * row['price']
+# 				else:
+# 					session['cart_item'] = array_merge(session['cart_item'], itemArray)
+
+# 				for key, value in session['cart_item'].items():
+# 					individual_qty = int(session['cart_item'][key]['quantity'])
+# 					individual_price = float(session['cart_item'][key]['total_price'])
+# 					all_total_qty = all_total_qty + individual_qty
+# 					all_total_price = all_total_price + individual_price
+# 			else:
+# 				session['cart_item'] = itemArray
+# 				all_total_qty = all_total_qty + qty
+# 				all_total_price = all_total_price + qty * row['price']
+			
+# 			session['all_total_qty'] = all_total_qty
+# 			session['all_total_price'] = all_total_price
+			
+# 			return redirect(url_for('.products'))
+# 		else:			
+# 			return 'Error while adding item to cart'
+# 	except Exception as e:
+# 		print(e)
+# 	finally:
+# 		cursor.close() 
+# 		conn.close()
+
+
+@app.route("/cart", methods = (["POST", "GET"]), strict_slashes = False)
+def cart():
+    id = session.get("user")
+    if id != None:
+        if request.method == "GET":
+            return render_template('user/goto_cart.html', title="Cart") 
+
+
+@app.route("/past_orders", methods =(["POST", "GET"]), strict_slashes = False)
+def past():
+    id = session.get("user")
+    if id != None:
+        return render_template("user/past_orders.html")
