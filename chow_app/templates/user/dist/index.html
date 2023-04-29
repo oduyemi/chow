@@ -16,8 +16,20 @@
     <link rel="stylesheet" href="{{url_for("static", filename="css/style.css")}}">
     <link rel="stylesheet" href="{{url_for("static", filename="css/navbars-offcanvas.css")}}">
     <link rel="stylesheet" href="{{url_for("static", filename="assets/dist/css/bootstrap.min.css")}}">
+   
 
     <style>
+      #slider{
+        height:50%;
+        width:100%;
+        
+      }
+
+      #slider img{
+        position:relative;
+        left:4.5%;
+      }
+
         .bd-placeholder-img {
         font-size: 1.125rem;
         text-anchor: middle;
@@ -139,7 +151,7 @@
                 <span>
                   <i class="fa-solid fa-cart-shopping text-success"></i><span></span id="cart">&emsp;
                     <a href="{{ url_for("login") }}" class="btn btn-success">Log in</a>&emsp;
-                    <a href="{{ url_for("login") }}" class="btn btn-outline-success">Sign up</a>&emsp;
+                    <a href="{{ url_for("signup") }}" class="btn btn-outline-success">Sign up</a>&emsp;
                 </span>
               
               <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasNavbarLight" aria-labelledby="offcanvasNavbarLightLabel">
@@ -162,21 +174,23 @@
                         Services
                       </a>
                       <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="buffet.html">Buffet</a></li>
+                        <li><a class="dropdown-item" href="/buffet">Buffet</a></li>
                         <li><a class="dropdown-item" href="#"></a></li>
                         <li>
                           <hr class="dropdown-divider">
                         </li>
-                        <li><a class="dropdown-item" href="outdoor.html">Outdoor Catering</a></li>
+                        <li><a class="dropdown-item" href="/outdoor">Outdoor Catering</a></li>
                       </ul>
                     </li>
                     <li class="nav-item">
                       <a class="nav-link" href="{{ url_for("dashboard") }}">My Account</a>
                     </li>
                   </ul>
-                  <form class="d-flex mt-3" role="search">
-                    <input class="form-control me-2" type="search" placeholder="Search in menu" aria-label="Search">
-                    <button class="btn btn-outline-success" type="submit">Search</button>
+                  <form class="mt-3" role="search">
+                    <input class="form-control mx-auto" id="livebox" placeholder="Search in menu" aria-label="Search">
+                    <p id="menulist" class=" my-3 text-black search"></p>
+                    <a href="" class="btn btn-outline-success">Search</a>
+                    
                   </form>
                 </div>
               </div>
@@ -214,50 +228,62 @@
         </div>
 
         <section>
-          <div class="row mb-5 justify-content-around align-content-center" id="slider">
+          <div class="row mb-5 mx-auto justify-content-around align-content-center" id="slider">
             <div class="col-md-12 mt-5 text-center">
               <h2 class="intro animate__animated animate__zoomIn">BRINGING GOOD FOOD INTO YOUR EVERYDAY</h2>
           </div>
-            <div class="col-md-4 mx-auto">
-              <img src="" alt="" name="slide" height="80" width="380" class="img-thumbnail ms-5 my-5">
+            <div class="col-md-5 mx-auto">
+              <img src="" alt="" name="slide" height="80" width="360" class="img-thumbnail my-5">
             </div>
           </div>
         </section>
 
-        <section>
-            <div class="row text-center">
-                <div class="col-md-12 mt-3 text-center">
-                    <h2 class="intro">Menus</h2>
-                </div>
+        <div class="row text-center">
+          <div class="col-md-12 mt-3 text-center">
+              <h2 class="intro">Menus</h2>
+          </div>
+      </div>
+      <div class="row align-items-center justify-content-center">
+          <div class="col-md-9 mt-3">
+            <table class="table table-striped table-responsive table-hover">
+              <thead>
+                  <tr class="ms-3">
+                      <th>Main</th>
+                      <th>Protein</th>
+                      <th>Swallow</th>
+                      <th>Soup</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  <tr>
+                      <td><span> Yam Porridge </span>&emsp;<img src="static/images/main/porridge.jpg" alt="" height="120" width="120"></td>&emsp;
+                      <td><span> Asun </span>&emsp;<img src="static/images/protein/asun.jpg" alt="" height="120" width="120"></td>&emsp;
+                      <td><span> Amala </span>&emsp;<img src="static/images/swallow/amala.jpg" alt="" height="120" width="120"></td>&emsp;
+                      <td><span>Afang </span>&emsp;<img src="static/images/soup/afang.jpg" alt="" height="120" width="120"></td>
+                  </tr>
+                  <tr>
+                    <td><span> Yam Porridge </span>&emsp;<img src="static/images/main/porridge.jpg" alt="" height="120" width="120"></td>&emsp;
+                    <td><span> Asun </span>&emsp;<img src="static/images/protein/asun.jpg" alt="" height="120" width="120"></td>&emsp;
+                    <td><span> Amala </span>&emsp;<img src="static/images/swallow/amala.jpg" alt="" height="120" width="120"></td>&emsp;
+                    <td><span>Afang </span>&emsp;<img src="static/images/soup/afang.jpg" alt="" height="120" width="120"></td>
+                </tr>
+                <tr>
+                  <td><span> Yam Porridge </span>&emsp;<img src="static/images/main/porridge.jpg" alt="" height="120" width="120"></td>&emsp;
+                  <td><span> Asun </span>&emsp;<img src="static/images/protein/asun.jpg" alt="" height="120" width="120"></td>&emsp;
+                  <td><span> Amala </span>&emsp;<img src="static/images/swallow/amala.jpg" alt="" height="120" width="120"></td>&emsp;
+                  <td><span>Afang </span>&emsp;<img src="static/images/soup/afang.jpg" alt="" height="120" width="120"></td>
+              </tr>
+              </tbody>
+            </table>
+            <div class="text-center my-5">
+              <a href="{{ url_for("shop")}}" class="btn btn-success">Shop Now</a>
             </div>
-            <div class="row mx-auto align-items-center justify-content-center">
-                <div class="col-md-5 me-5 pe-3 mt-3">
-                  <table class="table table-responsive table-hover mx-auto">
-                        <tr>
-                          {% for m in main_ %}
-                            <td><span>{{m.menu_item}} </span>&emsp;<img src="static/{{m.menu_img}}" alt="" height="120" width="140"></td>&emsp;
-                          {% endfor %}
-                        </tr>
-                        <tr>
-                          {% for s in swallow_ %}
-                            <td><span>{{s.menu_item}} </span>&emsp;<img src="static/{{s.menu_img}}" alt="" height="120" width="140"></td>&emsp;
-                          {% endfor %}
-                        </tr>
-                        <tr>
-                          {% for so in soup %}
-                            <td><span> {{so.menu_item}} </span>&emsp;<img src="static/{{so.menu_img}}" alt="" height="120" width="140"></td>&emsp;
-                          {% endfor %}
-                        </tr>
-                  </table>
-                  <div class="text-center my-5">
-                    <a href="{{ url_for("shop")}}" class="btn btn-success">Shop Now</a>
-                  </div>
-                </div>
-                <div class="col-md-12 mb-5">
+          </div>
+          <div class="col-md-12 mb-5">
 
-                </div>
-            </div>
-        </section>
+          </div>
+      </div>
+  </section>
         <section>
             <div class="row adfeature justify-content-around align-items-center">
                 <div class="col-md-3 my-3">
@@ -342,7 +368,8 @@
     <script type="text/javascript" language="javascript" src="{{url_for("static", filename="js/jquery.magnific-popup.min.js")}}"></script>
     <script type="text/javascript" language="javascript" src="{{url_for("static", filename="js/scrollax.min.js")}}"></script>
     <script type="text/javascript" language="javascript" src="{{url_for("static", filename="js/script.js")}}"></script>
-
+    <script type="text/javascript" language="javascript" src="{{url_for("static", filename="ajax/glm-ajax.js")}}"></script>
+ 
 
 </body>
 </html>

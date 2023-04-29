@@ -8468,6 +8468,30 @@ h1, h2, h3, h4, h5,
   font-size: 24px;
   text-transform: uppercase; }
 
+.search, .search ul, .search ul li{
+  list-style: none;
+}
+
+.buf{
+  height:100vh;
+  background-image: url(../images/bhero2.jpg);
+  background-size: cover;
+}
+
+.buf_overlay{
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.opening{
+  height:60vh;
+  background-color: rgba(255, 255, 255, 0.5);
+  position:relative;
+  top:20%;
+  left:1%;
+  width:80%
+}
+
 .hero h3.vr {
   -webkit-writing-mode: vertical-lr;
   -ms-writing-mode: tb-lr;

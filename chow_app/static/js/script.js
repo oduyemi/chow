@@ -19,3 +19,26 @@ function changeImg(){
 setTimeout("changeImg()", time);
 }
 window.onload=changeImg;
+
+$(document).ready(function(){
+    $("#livebox").on("input", function(e){
+        var live_text = $(this).val();
+        
+        $.ajax({
+          method:"POST",
+          url:"/livesearch",
+          data:{text:live_text},
+          success:function(rsp){
+            var data = "<ul>";
+              $.each(rsp, function(index, value){
+                data += "<li style='list-style:none'>"+value.menu_item+"<li>"
+              })
+              data += "</ul>";
+              $("#menulist").html(data);
+          }
+  
+        })
+  
+      });
+  
+})

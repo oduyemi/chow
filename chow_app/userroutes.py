@@ -1,6 +1,7 @@
-import os, random, string
-from flask import render_template, request, redirect, url_for, session, flash
+import os, random, string, json
+from flask import render_template, request, redirect, url_for, session, flash, jsonify
 from sqlalchemy.sql import text
+from flask_mysqldb import MySQL
 from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.exceptions import HTTPException
 from chow_app import app, db
@@ -8,24 +9,43 @@ from chow_app.models import User, Contact, Order, Menu
 from forms import ContactForm, LoginForm, SignUpForm
 
 
+mysql = MySQL(app)
+app.config["MYSQL_HOST"] = "localhost"
+app.config["MYSQL_USER"] = "root"
+app.config["MYSQL_PASSWORD"] = ""
+app.config["MYSQL_DB"] = "chowdb"
+app.config["MYSQL_CURSORCLASS"] = "DictCursor"
+
+
+
+@app.route("/livesearch", methods = ["POST", "GET"])
+def livesearch():
+    searchbox = request.form.get("text")
+    cursor = mysql.connection.cursor()
+    #items = Menu.query.filter(Menu.menu_item.like("{}%")).order_by(Menu.menu_item).all()
+    query = "SELECT menu_item FROM menu WHERE menu_item LIKE '{}%' ORDER BY menu_item".format(searchbox)
+    cursor.execute(query)
+    result = cursor.fetchall()
+    return jsonify(result)
+
 
 # def generate_name():
 #     global filename
 #     filename = random.sample(string.ascii_lowercase,10)
 #     return ''.join(filename)
 # 
-def array_merge( first_array , second_array ):
-    if isinstance( first_array , list ) and isinstance( second_array , list ):
-        return first_array + second_array
+# def array_merge( first_array , second_array ):
+#     if isinstance( first_array , list ) and isinstance( second_array , list ):
+#         return first_array + second_array
 
-    elif isinstance( first_array , dict ) and isinstance( second_array , dict ):
-	    return dict( list( first_array.items() ) + list( second_array.items() ) )
+#     elif isinstance( first_array , dict ) and isinstance( second_array , dict ):
+# 	    return dict( list( first_array.items() ) + list( second_array.items() ) )
     
-    elif isinstance( first_array , set ) and isinstance( second_array , set ):
-        return first_array.union( second_array )
+#     elif isinstance( first_array , set ) and isinstance( second_array , set ):
+#         return first_array.union( second_array )
 	
-    else:
-        return False	 
+#     else:
+#         return False	 
 
 #       --  ROUTES  --
 @app.route('/', methods = ["POST", "GET"], strict_slashes = False)
@@ -52,6 +72,9 @@ def home():
             return redirect(url_for("login"))
     else:
         return render_template('user/index.html', main_=main_, swallow_=swallow_, protein_=protein_, soup_=soup_)
+
+
+
    
 
 @app.route('/contact', methods = ["POST", "GET"], strict_slashes = False)
@@ -79,6 +102,16 @@ def contact():
 @app.route('/about', strict_slashes = False)
 def about():
     return render_template('user/about.html')
+
+
+@app.route("/buffet", strict_slashes = False)
+def buffet():
+    return render_template("user/buffet.html")
+
+
+@app.route("/outdoor", strict_slashes = False)
+def outdoor():
+    return render_template("user/outdoor.html")
 
 
 @app.route('/signup', methods = ["POST", "GET"], strict_slashes = False)
@@ -131,6 +164,15 @@ def logout():
     return redirect('/')
 
 
+@app.route("/search/<item>", strict_slashes = False)
+def search(item):
+    item = request.form.get("")
+    if item:
+    id = db.session.query(Menu.menu_id).get()
+    content = Menu.query.filter(Menu.menu_item==item)
+    return redirect("/add/id")
+
+
 
 @app.route('/dashboard', methods = ['POST', 'GET'], strict_slashes = False)
 def dashboard():
@@ -163,6 +205,16 @@ def add_to_cart(bid):
     if id != None:
         if request.method == "GET":
             return render_template('user/add.html', title="Add to Cart", mdeets=mdeets, price=price, extra=extra, protein_=protein_)
+        else:
+            return render_template('user/add.html', title="Add to Cart", mdeets=mdeets, price=price, extra=extra, protein_=protein_)
+
+    else:
+        return redirect(url_for("login"))
+
+
+@app.route("/checkout", strict_slashes = False)
+def checkout():
+    return render_template("user/checkout.html")
 # 	try:
 # 		qty = int(request.form['quantity'])
 # 		_code = request.form['code']

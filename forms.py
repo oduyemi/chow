@@ -127,7 +127,7 @@ class AdminSignUpForm(FlaskForm):
             DataRequired(),
             length(min=1, max=20, message = "Please provide a valid phone number"),
             Regexp(
-                "^[A-Za-z] [A-Za-a0-9.]*", 0, "Please provide a valid phone number")],
+                "^[0-9]*", 0, "Please provide a valid phone number")],
         render_kw={"placeholder": "Phone Number"})
 
     email = StringField("email",

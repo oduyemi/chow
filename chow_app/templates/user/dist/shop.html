@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="{{url_for("static", filename="css/style.css")}}">
     <link rel="stylesheet" href="{{url_for("static", filename="css/navbars-offcanvas.css")}}">
     <link rel="stylesheet" href="{{url_for("static", filename="assets/dist/css/bootstrap.min.css")}}">
+    <link rel="stylesheet" href="{{url_for("static", filename="bootstrap-select/dist/css/bootstrap-select.min.css")}}">
 
     <style>
       table tr td a{
@@ -157,7 +158,7 @@
                 <span>
                   <i class="fa-solid fa-cart-shopping text-success"></i><span></span id="cart">&emsp;
                     <a href="{{ url_for("login") }}" class="btn btn-success">Log in</a>&emsp;
-                    <a href="{{ url_for("login") }}" class="btn btn-outline-success">Sign up</a>&emsp;
+                    <a href="{{ url_for("signup") }}" class="btn btn-outline-success">Sign up</a>&emsp;
                 </span>
               
               <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasNavbarLight" aria-labelledby="offcanvasNavbarLightLabel">
@@ -176,24 +177,25 @@
                       <a class="nav-link" href="{{ url_for("contact") }}">Contact us</a>
                     </li>
                     <li class="nav-item dropdown">
-                      <a class="nav-link dropdown-toggle" href="services.html" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                      <a class="nav-link dropdown-toggle" href="/services" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         Services
                       </a>
                       <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="buffet.html">Buffet</a></li>
+                        <li><a class="dropdown-item" href="/buffet">Buffet</a></li>
                         <li><a class="dropdown-item" href="#"></a></li>
                         <li>
                           <hr class="dropdown-divider">
                         </li>
-                        <li><a class="dropdown-item" href="outdoor.html">Outdoor Catering</a></li>
+                        <li><a class="dropdown-item" href="/outdoor">Outdoor Catering</a></li>
                       </ul>
                     </li>
                     <li class="nav-item">
                       <a class="nav-link" href="{{ url_for("dashboard") }}">My Account</a>
                     </li>
                   </ul>
-                  <form class="d-flex mt-3" role="search">
-                    <input class="form-control me-2" type="search" placeholder="Search in menu" aria-label="Search">
+                  <form class="mt-3" role="search">
+                    <input class="form-control me-5" id="livebox" type="search" placeholder="Search in menu" aria-label="Search">
+                    <p id="menulist" class="text-black my-3 search"></p>
                     <button class="btn btn-outline-success" type="submit">Search</button>
                   </form>
                 </div>
@@ -228,7 +230,7 @@
               <tbody>
                 {% for m in main_ %}
                 <tr>
-                  <td><a href="{{url_for("add_to_cart", bid=m.menu_id)}}"><img src="static/{{m.menu_img}}" alt="" width="120" height="120" class="img-thumbnail" /></a>
+                  <td><a href="{{url_for("add_to_cart", bid=m.menu_id)}}"><img src="static/{{m.menu_img}}" alt="" width="120" height="120" class="img-thumbnail" /></a></td>
                   <td><a href="{{url_for("add_to_cart", bid=m.menu_id)}}"><h6>{{ m.menu_item}}</h6><span width="20%" class="food_details">{{ m.menu_desc}}</span></a></td>
                   <td>&#8358;<br><br>{{ m.menu_price}}</td>
                 </tr>
@@ -243,8 +245,8 @@
               <tbody>
                 {% for p in protein_ %}
                 <tr>
-                  <td><img src="static/{{p.menu_img}}" alt="" width="120" height="120" class="img-thumbnail" />
-                    <td><h6>{{ p.menu_item}}</h6><span width="20%" class="food_details">{{ p.menu_desc}}</span></td>
+                  <td><a href="{{url_for("add_to_cart", bid=p.menu_id)}}"><img src="static/{{p.menu_img}}" alt="" width="120" height="120" class="img-thumbnail" /></a></td>
+                    <td><a href="{{url_for("add_to_cart", bid=p.menu_id)}}"><h6>{{ p.menu_item}}</h6><span width="20%" class="food_details">{{ p.menu_desc}}</span></a></td>
                     <td>&#8358;<br><br>{{ p.menu_price}}</td>
                 </tr>
                 {% endfor%}
@@ -258,8 +260,8 @@
               <tbody>
                 {% for s in swallow_ %}
                 <tr>
-                  <td><img src="static/{{s.menu_img}}" alt="" width="120" height="120" class="img-thumbnail" />
-                  <td><h6>{{ s.menu_item}}</h6><span width="20%" class="food_details">{{ s.menu_desc}}</span></td>
+                  <td><a href="{{url_for("add_to_cart", bid=s.menu_id)}}"><img src="static/{{s.menu_img}}" alt="" width="120" height="120" class="img-thumbnail" /></a></td>
+                  <td><a href="{{url_for("add_to_cart", bid=s.menu_id)}}"><h6>{{ s.menu_item }}</h6><span width="20%" class="food_details">{{ s.menu_desc}}</span></a></td>
                   <td>&#8358;<br><br>{{ s.menu_price}}</td>
                 </tr>
                 {% endfor %}
@@ -273,9 +275,9 @@
                 <tbody>
                   {% for so in soup_ %}
                   <tr>
-                    <td><img src="static/{{so.menu_img}}" alt="" width="120" height="120" class="img-thumbnail" />
-                      <td><h6>{{ so.menu_item}}</h6><span width="20%" class="food_details">{{ so.menu_desc}}</span></td>
-                      <td>&#8358;<br><br>{{ so.menu_price}}</td>
+                    <td><a href="{{url_for("add_to_cart", bid=so.menu_id)}}"><img src="static/{{so.menu_img}}" alt="" width="120" height="120" class="img-thumbnail" /></a></td>
+                      <td><a href="{{url_for("add_to_cart", bid=so.menu_id)}}"><h6>{{ so.menu_item }}</h6><span width="20%" class="food_details">{{ so.menu_desc}}</span></a></td>
+                      <td>&#8358;<br><br>{{ so.menu_price }}</td>
                   </tr>
                   {% endfor %}
                 </tbody>
@@ -337,7 +339,8 @@
     <script type="text/javascript" language="javascript" src="{{url_for("static", filename="js/owl.carousel.min.js")}}"></script>
     <script type="text/javascript" language="javascript" src="{{url_for("static", filename="js/jquery.magnific-popup.min.js")}}"></script>
     <script type="text/javascript" language="javascript" src="{{url_for("static", filename="js/scrollax.min.js")}}"></script>
-    
+    <script type="text/javascript" language="javascript" src="{{url_for("static", filename="bootstrap-select/dist/js/bootstrap-select.min.js")}}"></script>
+
 
 
 </body>

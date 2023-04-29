@@ -123,27 +123,28 @@
                         Services
                       </a>
                       <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="buffet.html">Buffet</a></li>
+                        <li><a class="dropdown-item" href=/"buffet">Buffet</a></li>
                         <li><a class="dropdown-item" href="#"></a></li>
                         <li>
                           <hr class="dropdown-divider">
                         </li>
-                        <li><a class="dropdown-item" href="outdoor.html">Outdoor Catering</a></li>
+                        <li><a class="dropdown-item" href="/outdoor">Outdoor Catering</a></li>
                       </ul>
                     </li>
                     <li class="nav-item">
                       <a class="nav-link" href="{{ url_for("dashboard") }}">My Account</a>
                     </li>
                   </ul>
-                  <form class="d-flex mt-3" role="search">
-                    <input class="form-control me-2" type="search" placeholder="Search in menu" aria-label="Search">
+                  <form class="mt-3" role="search">
+                    <input class="form-control me-5" id="livebox" type="search" placeholder="Search in menu" aria-label="Search">
+                    <p id="menulist" class="text-black my-3 search"></p>
                     <button class="btn btn-outline-success" type="submit">Search</button>
                   </form>
                 </div>
               </div>
             </div>
           </nav>
-    </main>
+
 
     <div class="container-fluid">
       <div class="row my-5 align-items-center mx-auto">
@@ -275,6 +276,7 @@
 <-->
 
 </div>
+</main>
 <script src="{{url_for("static", filename="assets/dist/js/bootstrap.bundle.min.js")}}"></script>
 <script type="text/javascript" language="javascript" src="{{url_for("static", filename="js/bootstrap.min.js")}}"></script>
 <script type="text/javascript" language="javascript" src="{{url_for("static", filename="js/jquery.min.js")}}"></script>
