@@ -29,6 +29,16 @@ def livesearch():
     return jsonify(result)
 
 
+@app.route("/livesearch2", methods = ["POST", "GET"])
+def livesearch2():
+    searchbox = request.form.get("text")
+    cursor = mysql.connection.cursor()
+    query = "SELECT menu_item FROM menu WHERE menu_item LIKE '{}%' ORDER BY menu_item".format(searchbox)
+    cursor.execute(query)
+    result = cursor.fetchall()
+    return jsonify(result)
+
+
 # def generate_name():
 #     global filename
 #     filename = random.sample(string.ascii_lowercase,10)
@@ -168,9 +178,9 @@ def logout():
 def search(item):
     item = request.form.get("")
     if item:
-    id = db.session.query(Menu.menu_id).get()
-    content = Menu.query.filter(Menu.menu_item==item)
-    return redirect("/add/id")
+        id = db.session.query(Menu.menu_id).get()
+        content = Menu.query.filter(Menu.menu_item==item)
+        return redirect("/add/id")
 
 
 
