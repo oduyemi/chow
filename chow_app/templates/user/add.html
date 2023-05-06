@@ -97,7 +97,7 @@
                 </button>&emsp;
                 <a class="navbar-brand text-success" href="/">chow</a></span>
                 <span>
-                  <i class="fa-solid fa-cart-shopping text-success"></i><span></span id="cart">&emsp;
+                  <a href="{{ url_for('cart') }}"><i class="fa-solid fa-cart-shopping text-success"></i><span class="badge">{{ cart_quantity }}</span id="cart"></a>&emsp;
                     <a href="{{ url_for("login")}}" class="btn btn-success">Log in</a>&emsp;
                     <a href="{{ url_for("signup")}}" class="btn btn-outline-success">Sign up</a>
                 </span>
@@ -161,7 +161,7 @@
                     </div>
                     <div class="mx-auto">
                       <!--<a href="" class="btn btn-outline-success" id="shop_more">Shop For More</a><-->
-                      <a href="" class="btn btn-success btn-lg text-capitalize " id="add_cart">Add for &#8358;<span> </span></a>
+                      <button class="add-to-cart btn btn-success" data-item-id="1" data-item-price="10.99">Add to Cart</button>
                     </div>
                 </div>
             </div>
@@ -169,7 +169,7 @@
 
         <section>
           <div class="row mx-auto">
-            <div class="col-md-7 mt-5 mx-auto">
+            <div class="col-md-7=16 mt-5 mx-auto">
               <h2 class="intro ms-3">Extra</h2>
               <table class="table table-responsive table-hover text-center" width="100%">
                 <tbody>
@@ -178,8 +178,7 @@
                     <td><img src="../static/{{e.menu_img}}" alt="" width="120" height="120" class="img-thumbnail" />
                     <td><h6>{{ e.menu_item}}</h6><span width="20%" class="food_details">{{ e.menu_desc}}</span></td>
                     <td>&#8358;<br><br>{{ e.menu_price}}</td>
-                    <td><button class="my-5 ms-5 btn btn-sm btn-outline-success" id="subtract"> - </button>
-                      <button class="btn btn-sm btn-outline-success" id="add"> + </button></td>
+                    <td><button class="add-to-cart btn btn-success" data-item-id="1" data-item-price="10.99">Add to Cart</button></td>
                     </div>
                   </tr>
                   {% endfor %}
@@ -188,15 +187,16 @@
 
             </div>
 
-            <div class="col-md-7 mt-5 mx-auto">
+            <div class="col-md-12 mt-5 mx-auto">
               <h2 class="intro ms-3">Protein</h2>
               <table class="table table-responsive table-hover text-center" width="100%">
                 <tbody>
                   {% for p in protein_ %}
                   <tr>
                     <td><img src="../static/{{p.menu_img}}" alt="" width="120" height="120" class="img-thumbnail" />
-                      <td><h6>{{ p.menu_item}}</h6><span width="20%" class="food_details">{{ p.menu_desc }}</span></td>
-                      <td>&#8358;<br><br>{{ p.menu_price}}</td>
+                    <td><h6>{{ p.menu_item}}</h6><span width="20%" class="food_details">{{ p.menu_desc }}</span></td>
+                    <td>&#8358;<br><br>{{ p.menu_price}}</td>
+                    <td><button class="add-to-cart btn btn-success" data-item-id="1" data-item-price="10.99">Add to Cart</button></td>
                   {% endfor %}
                 </tbody>
               </table>

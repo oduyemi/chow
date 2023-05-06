@@ -156,7 +156,7 @@
                 </button>&emsp;
                 <a class="navbar-brand text-success" href="/">chow</a></span>
                 <span>
-                  <i class="fa-solid fa-cart-shopping text-success"></i><span></span id="cart">&emsp;
+                  <a href="{{ url_for('cart') }}"><i class="fa-solid fa-cart-shopping text-success"></i><span class="badge">{{ cart_quantity }}</span id="cart"></a>&emsp;
                     <a href="{{ url_for("login") }}" class="btn btn-success">Log in</a>&emsp;
                     <a href="{{ url_for("signup") }}" class="btn btn-outline-success">Sign up</a>&emsp;
                 </span>

@@ -98,9 +98,8 @@
                 </button>&emsp;
                 <a class="navbar-brand text-success" href="/">chow</a></span>
                 <span>
-                  <i class="fa-solid fa-cart-shopping text-success"></i><span></span id="cart">&emsp;
                     <a href="{{ url_for("login") }}" class="btn btn-success">Log in</a>&emsp;
-                    <a href="{{ url_for("login") }}" class="btn btn-outline-success">Sign up</a>
+                    <a href="{{ url_for("signup") }}" class="btn btn-outline-success">Sign up</a>
                 </span>
               
               <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasNavbarLight" aria-labelledby="offcanvasNavbarLightLabel">
@@ -119,11 +118,11 @@
                       <a class="nav-link" href="{{ url_for("contact") }}">Contact us</a>
                     </li>
                     <li class="nav-item dropdown">
-                      <a class="nav-link dropdown-toggle" href="services.html" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                      <a class="nav-link dropdown-toggle" href="/services" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         Services
                       </a>
                       <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href=/"buffet">Buffet</a></li>
+                        <li><a class="dropdown-item" href="/buffet">Buffet</a></li>
                         <li><a class="dropdown-item" href="#"></a></li>
                         <li>
                           <hr class="dropdown-divider">

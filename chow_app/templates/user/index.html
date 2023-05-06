@@ -149,7 +149,7 @@
                 </button>&emsp;
                 <a class="navbar-brand text-success" href="/">chow</a></span>
                 <span>
-                  <i class="fa-solid fa-cart-shopping text-success"></i><span></span id="cart">&emsp;
+                  <a href="{{ url_for('cart') }}"><i class="fa-solid fa-cart-shopping text-success"></i><span class="badge">{{ cart_quantity }}</span id="cart"></a>&emsp;
                     <a href="{{ url_for("login") }}" class="btn btn-success">Log in</a>&emsp;
                     <a href="{{ url_for("signup") }}" class="btn btn-outline-success">Sign up</a>&emsp;
                 </span>
@@ -196,8 +196,7 @@
               </div>
             </div>
           </nav>
-
-    <div class="container-fluid">
+{% block content %}
         <div class="row">
             <div class="col-md-12 hero">
                 <div class="hero_info my-5">
@@ -214,13 +213,10 @@
 				{% endif %}
 				
 				{% endwith %}
-                    <input type="search" class="ms-5 p-2" name="location" placeholder="Enter your location" id="spot">
-                        <select class="p-2 mx-auto" name="preference">
-                            <option value="1">Delivery</option>
-                            <option value="2">Pick Up</option>
-                        </select>
+                    <input type="search" class="ms-5 p-2" name="address" placeholder="Enter your address" id="spot">
                         <button type="submit" class="btn btn-success p-lg-2">Shop Now</button>
                     </span>
+                    <div id="map"></div>
                     </form>
                     </div>
                 </div>
@@ -319,6 +315,7 @@
             <div class="col-md-7 ms-5 mt-5">
               <img src="static/images/restaurant.jpg" alt="Image" class="img-fluid"/>
             </div>
+            {% endblock %}
           </div>
         </main>
         </section>
@@ -328,7 +325,7 @@
         
 
 
-
+{% block footer %}
             <!--  FOOTER -->
      
       <div class="row mt-5 footer">
@@ -358,6 +355,7 @@
     </div>
 
     <script src="{{url_for("static", filename="assets/dist/js/bootstrap.bundle.min.js")}}"></script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAUvrsHo6_eJgDv-LkzwrcaW-x74THE6lA&callback=initMap"></script>
     <script type="text/javascript" language="javascript" src="{{url_for("static", filename="js/jquery.min.js")}}"></script>
     <script type="text/javascript" language="javascript" src="{{url_for('static', filename='js/jquery-migrate-3.0.1.min.js')}}"></script>
     <script type="text/javascript" language="javascript" src="{{url_for('static', filename='js/popper.min.js')}}"></script>
@@ -369,7 +367,7 @@
     <script type="text/javascript" language="javascript" src="{{url_for("static", filename="js/scrollax.min.js")}}"></script>
     <script type="text/javascript" language="javascript" src="{{url_for("static", filename="typescript/dist/script.js")}}"></script>
     <script type="text/javascript" language="javascript" src="{{url_for("static", filename="ajax/glm-ajax.js")}}"></script>
- 
+ {% endblock %}
 
 </body>
 </html>

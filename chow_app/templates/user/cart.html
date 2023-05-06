@@ -1,0 +1,62 @@
+{% extends 'user/index.html' %}
+
+{% block content %}
+<div class="row mx-auto">
+    <div class="col-md-12"> 
+        <h1 class="intro my-5 ">Shopping Cart</h1>
+    </div>
+</div>
+
+<div class="row mx-auto">
+    <div class="col-md-8"> 
+{% if not cart %}
+<p class="text-black text-center">Your cart is empty.</p>
+{% else %}
+<table class="table table-responsive table-striped table-hover text-black">
+    <thead>
+        <tr>
+            <th>Menu</th>
+            <th>Price</th>
+            <th>Quantity</th>
+            <th>Subtotal</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in cart.items %}
+        <tr>
+            <td>{{ item.product.name }}</td>
+            <td>{{ item.product.price }}</td>
+            <td>
+                <form method="POST" action="{{ url_for('cart.change_item_quantity', product_id=item.product.id) }}">
+                    <input type="hidden" name="action" value="decrease">
+                    <button type="submit">-</button>
+                </form>
+                {{ item.quantity }}
+                <form method="POST" action="{{ url_for('cart.change_item_quantity', product_id=item.product.id) }}">
+                    <input type="hidden" name="action" value="increase">
+                    <button type="submit">+</button>
+                </form>
+            </td>
+            <td>{{ item.subtotal }}</td>
+            <td>
+                <form method="POST" action="{{ url_for('cart.remove_item', product_id=item.product.id) }}">
+                    <button type="submit">Remove</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+    <tfoot>
+        <tr>
+            <td colspan="3"></td>
+            <th>Total:</th>
+            <td>{{ cart.total }}</td>
+        </tr>
+    </tfoot>
+</table>
+{% endif %}
+</div>
+</div>
+
+{% endblock %}

@@ -123,9 +123,9 @@
                 </button>&emsp;
                 <a class="navbar-brand text-success" <img src="static/images/logo/" href="/">chow</a></span>
                 <span>
-                  <i class="fa-solid fa-cart-shopping text-success"></i><span></span id="cart">&emsp;
-                    <button type="submit" class="btn btn-success">Log in</button>&emsp;
-                    <button type="submit" class="btn btn-outline-success">Sign up</button>
+                  <a href="{{ url_for('cart') }}"><i class="fa-solid fa-cart-shopping text-success"></i><span class="badge">{{ cart_quantity }}</span id="cart"></a>&emsp;
+                    <a href="{{ url_for("login")}}" class="btn btn-success">Log in</a>&emsp;
+                    <a href="{{ url_for("signup")}}" class="btn btn-outline-success">Sign up</a>
                 </span>
               
               <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasNavbarLight" aria-labelledby="offcanvasNavbarLightLabel">

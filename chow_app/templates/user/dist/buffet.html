@@ -98,11 +98,11 @@
                 <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbarLight" aria-controls="offcanvasNavbarLight">
                 <span class="navbar-toggler-icon"></span>
                 </button>&emsp;
-                <a class="navbar-brand text-success" href="index.html">chow</a></span>
+                <a class="navbar-brand text-success" href="/">chow</a></span>
                 <span>
                   <i class="fa-solid fa-cart-shopping text-success"></i><span></span id="cart">&emsp;
-                    <button type="submit" class="btn btn-success">Log in</button>&emsp;
-                    <button type="submit" class="btn btn-outline-success">Sign up</button>
+                    <a href="{{ url_for("login")}}" class="btn btn-success">Log in</a>&emsp;
+                    <a href="{{ url_for("signup")}}" class="btn btn-outline-success">Sign up</a>
                 </span>
               
               <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasNavbarLight" aria-labelledby="offcanvasNavbarLightLabel">
@@ -112,16 +112,16 @@
                 <div class="offcanvas-body">
                   <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
                     <li class="nav-item">
-                      <a class="nav-link active" aria-current="page" href="index.html">Home</a>
+                      <a class="nav-link active" aria-current="page" href="/">Home</a>
                     </li>
                     <li class="nav-item">
-                      <a class="nav-link" href="about.html">About</a>
+                      <a class="nav-link" href="/about">About</a>
                     </li>
                     <li class="nav-item">
-                      <a class="nav-link" href="contact.html">Contact us</a>
+                      <a class="nav-link" href="/contact">Contact us</a>
                     </li>
                     <li class="nav-item dropdown">
-                      <a class="nav-link dropdown-toggle" href="services.html" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                      <a class="nav-link dropdown-toggle" href="/services" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         Services
                       </a>
                       <ul class="dropdown-menu">

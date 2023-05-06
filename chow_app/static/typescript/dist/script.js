@@ -9,6 +9,7 @@ images[4] = "./static/images/slides/e.jpg";
 images[5] = "./static/images/slides/f.jpg";
 images[6] = "./static/images/slides/g.jpg";
 function changeImg() {
+    var silde;
     if (i < images.length) {
         document.slide.src = images[i];
         i++;

@@ -1,10 +1,9 @@
-import os, random, string, json
 from flask import render_template, request, redirect, url_for, session, flash, jsonify
 from sqlalchemy.sql import text
 from flask_mysqldb import MySQL
 from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.exceptions import HTTPException
-from chow_app import app, db
+from chow_app import app, db, paystack
 from chow_app.models import User, Contact, Order, Menu
 from forms import ContactForm, LoginForm, SignUpForm
 
@@ -17,6 +16,27 @@ app.config["MYSQL_DB"] = "chowdb"
 app.config["MYSQL_CURSORCLASS"] = "DictCursor"
 
 
+
+
+def get_cart():
+    cart = session.get('user')
+    if cart == None:
+        cart = {}
+        session['user'] = cart
+    return cart
+
+def save_cart(cart):
+    session['user'] = cart
+
+
+
+@app.route("/pay", methods = ["POST", "GET"], strict_slashes = False)
+def pay():
+    id = session.get("user")
+    if id != None:
+        return render_template("user/pay.html")
+    else:
+        return redirect(url_for("login"))
 
 @app.route("/livesearch", methods = ["POST", "GET"])
 def livesearch():
@@ -57,31 +77,33 @@ def livesearch2():
 #     else:
 #         return False	 
 
+
+
+
+
+
+
 #       --  ROUTES  --
 @app.route('/', methods = ["POST", "GET"], strict_slashes = False)
 def home():
-    id =session.get("user")
-    main_ = db.session.query(Menu).filter(Menu.menu_cat_id==1).all()
-    protein_ = db.session.query(Menu).filter(Menu.menu_cat_id==2).all()
-    swallow_ = db.session.query(Menu).filter(Menu.menu_cat_id==3).all()
-    soup_ = db.session.query(Menu).filter(Menu.menu_cat_id==4).all()         
+    id = session.get("user")
     if request.method == "POST":
-        if session.get("user") != None:
-            location = request.form.get("location")
-            preference = request.form.get("preference")
-            
-            if location != "" and preference != "":
-                new_order = Order(order_location=location, order_preference=preference, order_user=id)
+        if id == None:
+            return redirect(url_for("login")) 
+        else:
+            address = request.form.get("address")
+            if address != "":
+                new_order = Order(delivery_address=address, user_id=id)
                 db.session.add(new_order)
                 db.session.commit()
                 return redirect(url_for("shop"))
             else:
                 flash("Please select your location")
-                return redirect("/")
-        else:
-            return redirect(url_for("login"))
-    else:
-        return render_template('user/index.html', main_=main_, swallow_=swallow_, protein_=protein_, soup_=soup_)
+                return redirect("/")                  
+    return render_template('user/index.html')
+
+  
+    
 
 
 
@@ -134,7 +156,7 @@ def signup():
         password=request.form.get("password")
         hashedpwd = generate_password_hash(password)
         if fullname !='' and phone != "" and email != "" and password !='':
-            new_user=User(user_fullname = fullname, user_phone = phone, user_email = email, user_password = hashedpwd)
+            new_user=User(user_fullname = fullname, user_phone = phone, user_email = email, password_hash = hashedpwd)
             db.session.add(new_user)
             db.session.commit()
             userid=new_user.user_id
@@ -156,7 +178,7 @@ def login():
         pwd=request.form.get('password')
         deets = db.session.query(User).filter(User.user_email==mail).first() 
         if deets !=None:
-            pwd_indb = deets.user_password
+            pwd_indb = deets.password_hash
             chk = check_password_hash(pwd_indb, pwd)
             if chk:
                 id = deets.user_id
@@ -196,12 +218,15 @@ def dashboard():
 @app.route("/shop", strict_slashes = False)
 def shop():
     id = session.get("user")
-    main_ = db.session.query(Menu).filter(Menu.menu_cat_id==1).all()
-    protein_ = db.session.query(Menu).filter(Menu.menu_cat_id==2).all()
-    swallow_ = db.session.query(Menu).filter(Menu.menu_cat_id==3).all()
-    soup_ = db.session.query(Menu).filter(Menu.menu_cat_id==4).all() 
+    main_ = db.session.query(Menu).filter(Menu.menu_cat==1).all()
+    protein_ = db.session.query(Menu).filter(Menu.menu_cat==2).all()
+    swallow_ = db.session.query(Menu).filter(Menu.menu_cat==3).all()
+    soup_ = db.session.query(Menu).filter(Menu.menu_cat==4).all() 
     if request.method == "GET":
         return render_template('user/shop.html', title="Shop Now", main_=main_, protein_=protein_, swallow_=swallow_, soup_=soup_)
+    else:
+        return redirect(url_for("login"))
+
 
 
 @app.route('/add/<bid>', methods=['GET', 'POST'], strict_slashes = False)
@@ -209,8 +234,8 @@ def add_to_cart(bid):
     id = session.get("user")
     mdeets = db.session.query(Menu).filter(Menu.menu_id==bid).one()
     price = float(mdeets.menu_price) + 200.00
-    extra = db.session.query(Menu).filter(Menu.menu_cat_id==5).all()
-    protein_ = db.session.query(Menu).filter(Menu.menu_cat_id==2).all()
+    extra = db.session.query(Menu).filter(Menu.menu_cat==5).all()
+    protein_ = db.session.query(Menu).filter(Menu.menu_cat==2).all()
 
     if id != None:
         if request.method == "GET":
@@ -218,62 +243,13 @@ def add_to_cart(bid):
         else:
             return render_template('user/add.html', title="Add to Cart", mdeets=mdeets, price=price, extra=extra, protein_=protein_)
 
-    else:
-        return redirect(url_for("login"))
+   
 
-
-@app.route("/checkout", strict_slashes = False)
+@app.route('/checkout', methods=['POST'], strict_slashes = False)
 def checkout():
-    return render_template("user/checkout.html")
-# 	try:
-# 		qty = int(request.form['quantity'])
-# 		_code = request.form['code']
-# 		# validate the received values
-# 		if qty and _code and request.method == 'POST':
-# 			query = ("SELECT * FROM menu WHERE code=%s", _code)
-# 			row = db.session.execute.fetchone(query)
-			
-# 			itemArray = { row['code'] : {'name' : row['name'], 'code' : row['code'], 'quantity' : qty, 'price' : row['price'], 'image' : row['image'], 'total_price': qty * row['price']}}
-			
-# 			all_total_price = 0
-# 			all_total_qty = 0
-			
-# 			session.modified = True
-# 			if 'cart_item' in session:
-# 				if row['code'] in session['cart_item']:
-# 					for key, value in session['cart_item'].items():
-# 						if row['code'] == key:
-# 							#session.modified = True
-# 							#if session['cart_item'][key]['quantity'] is not None:
-# 							#	session['cart_item'][key]['quantity'] = 0
-# 							old_qty = session['cart_item'][key]['quantity']
-# 							total_qty = old_qty + qty
-# 							session['cart_item'][key]['quantity'] = total_qty
-# 							session['cart_item'][key]['total_price'] = total_qty * row['price']
-# 				else:
-# 					session['cart_item'] = array_merge(session['cart_item'], itemArray)
-
-# 				for key, value in session['cart_item'].items():
-# 					individual_qty = int(session['cart_item'][key]['quantity'])
-# 					individual_price = float(session['cart_item'][key]['total_price'])
-# 					all_total_qty = all_total_qty + individual_qty
-# 					all_total_price = all_total_price + individual_price
-# 			else:
-# 				session['cart_item'] = itemArray
-# 				all_total_qty = all_total_qty + qty
-# 				all_total_price = all_total_price + qty * row['price']
-			
-# 			session['all_total_qty'] = all_total_qty
-# 			session['all_total_price'] = all_total_price
-			
-# 			return redirect(url_for('.products'))
-# 		else:			
-# 			return 'Error while adding item to cart'
-# 	except Exception as e:
-# 		print(e)
-# 	finally:
-# 		cursor.close() 
-# 		conn.close()
+  cart_data = request.get_json()
+  # Process the order and return a response to the client.
+  return 'Order processed successfully!'
 
 
 @app.route("/cart", methods = (["POST", "GET"]), strict_slashes = False)
@@ -281,7 +257,35 @@ def cart():
     id = session.get("user")
     if id != None:
         if request.method == "GET":
-            return render_template('user/goto_cart.html', title="Cart") 
+            return render_template('user/cart.html', title="Cart")
+    else:
+        return redirect(url_for("login"))
+
+# @app.context_processor
+# def cart_quantity():
+#     id = session.get("user")
+#     if id != None:
+#         cart = get_cart()
+#         cart_quantity = sum(item.quantity for item in cart.items)
+#     else:
+#         cart_quantity = 0
+#     return {'cart_quantity': cart_quantity}
+
+
+
+@app.route('/change-item-quantity/<int:menu_id>', methods=['POST'])
+def change_item_quantity(menu_id):
+    action = request.form['action']
+    cart = get_cart()
+
+    if action == 'decrease':
+        cart.remove_item(menu_id)
+    elif action == 'increase':
+        cart.add_item(menu_id)
+
+    save_cart(cart)
+    return redirect(url_for('cart'))
+
 
 
 @app.route("/past_orders", methods =(["POST", "GET"]), strict_slashes = False)
